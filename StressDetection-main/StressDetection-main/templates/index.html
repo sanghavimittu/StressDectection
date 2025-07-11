@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StressDetection</title>
+    <!-- static\css\style.css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  
+</head>
+<body>
+    <!-- Navbar -->
+  <div class="navbar">
+    <div class="navbar-left">Stress Detection</div>
+    <div class="navbar-gap"></div>
+    <div class="navbar-right">
+        <a href="#home" class="navbar-button" id="nav-home">HOME</a>
+        <a href="#detect" class="navbar-button" id="nav-detect">DETECT EMOTION</a>
+        <a href="#about" class="navbar-button" id="nav-about">ABOUT</a>
+        <a href="#help" class="navbar-button" id="nav-help">HELP</a>
+        <a href="#history" class="navbar-button" id="nav-history">HISTORY</a>
+        <a href="#login" class="navbar-button" id="nav-login">LOGIN</a>
+    </div>
+  </div>
+
+  <!-- Slideshow container -->
+  <div class="slideshow-container">
+    <div class="slide active">
+        <img src="{{ url_for('static', filename='images/tired-business-woman-sleepy-bored-260nw-2142729487.webp') }}" alt="Image 1" />
+ 
+  </div>
+    <div class="slide">
+        <img src="{{ url_for('static', filename='images/images.jpg') }}" alt="Image 2" />
+    </div>
+  </div>
+
+  <!-- Home Section -->
+  <div class="Home" id="home">
+    <h1>Home</h1>
+    <div class="content">
+      <p>Welcome to the <span>recognize</span> and <span>manage</span> stress effectively.</p>
+      <p>Use the navigation above to explore powerful features like <span class="highlight">real-time emotion detection</span>, personalized <span class="highlight">stress relief techniques</span>, and your <span class="highlight">stress history</span> for better insights.</p>
+      <p>Take control of your mental health and improve your <span class="highlight">well-being</span> with our easy-to-use tools designed for everyone.</p>
+    </div>
+    <div>
+      <h3>Inspiration for Your Mental Health</h3>
+      <div class="quote-carousel">
+        <blockquote>"The greatest weapon against stress is our ability to choose one thought over another." – William James</blockquote>
+        <blockquote>"Almost everything will work again if you unplug it for a few minutes, including you." – Anne Lamott</blockquote>
+        <blockquote>"Take care of your body. It’s the only place you have to live." – Jim Rohn</blockquote>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detect Section -->
+<!-- Detect Section -->
+<div class="Detect" id="detect">
+  <h1>Detect Emotion</h1>
+
+  <!-- ─── single slot that will hold exactly ONE child at a time ─── -->
+  <div id="slot">
+
+      <!-- ❶ Default grid of cards -->
+      <div class="container" id="card-container">
+        <div class="card" data-type="text">
+          <h2 class="card-title">Text Emotion</h2>
+          <p class="card-desc">Type your text and detect the underlying emotion accurately.</p>
+        </div>
+        <div class="card" data-type="voice">
+          <h2 class="card-title">Voice Emotion</h2>
+          <p class="card-desc">Record or upload audio to analyze the emotional tone.</p>
+        </div>
+        <div class="card" data-type="video">
+          <h2 class="card-title">Video Emotion</h2>
+          <p class="card-desc">Upload or record a video to detect emotions visually.</p>
+        </div>
+      </div>
+
+      <!-- ❷ Text-emotion panel -->
+      <div id="text-emotion-area" class="tool hidden add">
+        <textarea id="text-input" placeholder="Type your text here…"></textarea><br />
+        <button id="detect-text-btn">Detect Emotion</button>
+        <p id="textEmotionResult"></p>
+      </div>
+
+      <!-- ❸ Voice-emotion panel -->
+      <div id="voice-options" class="tool hidden">
+        <div class="card" id="upload-audio-card">
+          <h2 class="card-title">Upload Audio</h2>
+          <p class="card-desc">Upload an audio file to analyze.</p>
+        </div>
+        <div class="card" id="mic-card">
+          <h2 class="card-title">Mic</h2>
+          <p class="card-desc">Use your microphone for real-time detection.</p>
+        </div>
+      </div>
+      <div id="audio-upload-wrapper" class="tool hidden add">
+        <h3>Select an audio file</h3>
+      
+        <!-- ❶ choose a file -->
+        <input type="file"
+               id="audio-file-input"
+               accept="audio/*" />
+               <audio id="audio-player" controls style="display:none;"></audio>
+        <!-- ❷ send it to the server -->
+        <button id="predict-audio-btn" disabled>Predict Emotion</button>
+      
+        <!-- ❸ where the result appears -->
+        <p id="audioResultText"></p>
+      </div>
+
+      <div id="mic-wrapper" class="tool hidden add">
+        <h3>Live audio emotion</h3>
+      
+        <!-- controls -->
+        <button id="start-rec-btn">🎙️ Start recording</button>
+        <button id="stop-rec-btn"  disabled>⏹️ Stop</button>
+        <button id="predict-mic-btn" disabled>Predict Emotion</button>
+      
+        <!-- where we preview playback (optional) -->
+        <audio id="micPlayback" controls style="display:none;"></audio>
+      
+        <!-- result text -->
+        <p id="micResultText"></p>
+      </div>
+      <!-- ❹ Video-emotion panel -->
+      <div id="video-options" class="tool hidden">
+        <div class="card" id="upload-video-card">
+          <h2 class="card-title">Upload Video</h2>
+          <p class="card-desc">Upload a video file for emotion detection.</p>
+        </div>
+        <div class="card" id="record-video-card">
+          <h2 class="card-title">Turn on CAM</h2>
+          <p class="card-desc">Record a video with your camera.</p>
+        </div>
+      </div>
+      <div id="upload-video-panel" class="tool hidden add">
+        <h3>Upload Video for Emotion Detection</h3>
+        <input type="file" id="video-file-input" accept="video/*" />
+        <button id="upload-video-btn">Upload Video</button>
+      
+        <img id="videoPreview" class="hidden" style="width:100%; max-height:60vh; border-radius:8px;" />
+
+        <br />
+        <button id="video-stop-btn" disabled>Stop Video</button>
+        <div id="error-message"></div>
+      </div>
+      
+      <div id="cam-wrapper" class="tool hidden add">
+        <h3>Live-Video emotion detection</h3>
+      
+        <!-- live preview / playback -->
+        <img id="camPreview" style="width:100%; max-height:60vh; border-radius:8px;" />
+
+        <!-- actions -->
+        <div style="margin:15px 0;">
+          <button id="camStartBtn">Start Camera</button>
+          <button id="camStopBtn"  disabled>Stop Camera</button>
+          <div id="errorMessage"></div>
+
+         </div>
+      
+        
+  </div><!-- /slot -->
+
+</div><!-- /Detect -->
+</div>
+<section id="about" style="padding: 40px 20px; text-align: center; font-family: 'Open Sans', sans-serif;">
+    <h1 >About </h1>
+    <p style="max-width: 700px; margin: 0 auto 30px auto; font-size: 1.1rem; line-height: 1.6;">
+      Our app helps you recognize and manage stress by detecting emotions from your text, voice, and video inputs. Using advanced AI technology, we analyze your expressions and tone to provide real-time insights about your emotional state.
+    </p>
+  
+    <h2 style="color:  rgb(60, 182, 230);; margin-bottom: 15px;">Why Stress Detection Matters</h2>
+    <p style="max-width: 700px; margin: 0 auto 30px auto; font-size: 1.1rem; line-height: 1.6;">
+      Stress affects millions of people worldwide and can lead to serious health problems if left unchecked. Early awareness and management are key to maintaining mental well-being. Our app empowers you with the tools to understand your emotions and take proactive steps to reduce stress.
+    </p>
+  
+    
+    <h2 style="color:  rgb(60, 182, 230);; margin-bottom: 15px;">About Us</h2>
+    <p style="max-width: 700px; margin: 0 auto; font-size: 1.1rem; line-height: 1.6;">
+      Developed by a passionate team dedicated to mental health innovation. For support or feedback, please contact us at <a href="mailto:support@stressdetectionapp.com" style="color: #007BFF; text-decoration: underline;">support@stressdetectionapp.com</a>.
+    </p>
+  </section>
+  <section id="help" style="padding: 40px 20px; font-family: 'Open Sans', sans-serif;">
+    <h1 style="color: rgb(60, 182, 230); margin-top: 15px; text-align: center;">Help & Support</h1>
+    <h2 style="color: rgb(60, 182, 230); margin-bottom: 15px;">How to Use the App</h2>
+    <p style="max-width: 700px; margin: 0 auto 20px auto; font-size: 1.1rem; line-height: 1.6;">
+      1. <span class="highlight">Detect Emotions via Text:</span> Go to the "Detect Emotion" section, select "Text Emotion," type your message, and click "Detect Emotion" to see the result.<br />
+      2. <span class="highlight">Detect Emotions via Voice:</span> Choose "Voice Emotion," then either upload an audio file or use your microphone for live detection.<br />
+      3. <span class="highlight">Detect Emotions via Video:</span> Select "Video Emotion" to upload a video or record one using your camera for emotion analysis.<br />
+    </p>
+    <h2 style="color: rgb(60, 182, 230); margin-bottom: 15px;">Troubleshooting</h2>
+    <p style="max-width: 700px; margin: 0 auto 20px auto; font-size: 1.1rem; line-height: 1.6;">
+      - If you experience slow performance, try closing other browser tabs or apps.<br />
+      - Refresh the page if any feature does not load correctly.<br />
+    </p>
+    <h2 style="color: rgb(60, 182, 230); margin-bottom: 15px;">Contact Support</h2>
+    <p style="max-width: 700px; margin: 0 auto; font-size: 1.1rem; line-height: 1.6;">
+      If you need further assistance, feel free to email us at <a href="mailto:support@stressdetectionapp.com" style="color: #007BFF; text-decoration: underline;">support@stressdetectionapp.com</a>.
+    </p>
+  </section>
+    <script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.0/lame.min.js"></script>
+
+     <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.9.7/dist/ffmpeg.min.js"></script>
+     <script src="../static/js/script.js">       
+    </script>
+
+</body>
+</html>
